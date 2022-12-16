@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.0.1 (Python 3.10.7 on win32)" generated="20221214 11:57:22.748" rpa="false" schemaversion="3">
+<suite id="s1" name="Automated-Test-With-Robot" source="D:\repositorio\automated-test-with-robot">
+<suite id="s1-s1" name="Tests" source="D:\repositorio\automated-test-with-robot\tests">
+<suite id="s1-s1-s1" name="ValidateAddressPaulinia" source="D:\repositorio\automated-test-with-robot\tests\ValidateAddressPaulinia.robot">
+<test id="s1-s1-s1-t1" name="TC01 - Validating the address of this zip code" line="6">
+<kw name="Given the user want to know the the address of this zip code" library="PauliniaZipCodeStep">
+<kw name="Create Session" library="RequestsLibrary">
+<arg>mysession</arg>
+<arg>${base_url.zipcode_api}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20221214 11:57:23.169" level="INFO">Creating Session using : alias=mysession, url=https://viacep.com.br/ws/, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20221214 11:57:23.168" endtime="20221214 11:57:23.170"/>
+</kw>
+<status status="PASS" starttime="20221214 11:57:23.168" endtime="20221214 11:57:23.170"/>
+</kw>
+<kw name="When the user chooses the zip code" library="PauliniaZipCodeStep">
+<kw name="GET On Session" library="RequestsLibrary">
+<var>${RESPONSE}</var>
+<arg>mysession</arg>
+<arg>${zipcode.zip}/${zipcode.format}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20221214 11:57:23.681" level="INFO">GET Request : url=https://viacep.com.br/ws/13140770/json 
+ path_url=/ws/13140770/json 
+ headers={'User-Agent': 'python-requests/2.28.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20221214 11:57:23.682" level="INFO">GET Response : url=https://viacep.com.br/ws/13140770/json 
+ status=200, reason=OK 
+ headers={'Server': 'nginx/1.22.0', 'Date': 'Wed, 14 Dec 2022 14:57:24 GMT', 'Content-Type': 'application/json; charset=utf-8', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Expires': 'Wed, 14 Dec 2022 15:57:24 GMT', 'Cache-Control': 'max-age=3600, public', 'Pragma': 'public', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET', 'Access-Control-Allow-Headers': 'Content-Type, X-Request-With, X-Requested-By', 'Access-Control-Allow-Credentials': 'true', 'Access-Control-Max-Age': '86400'} 
+ body={
+  "cep": "13140-770",
+  "logradouro": "Avenida Doutor Alexandre Martins Laroca",
+  "complemento": "de 34 ao fim - lado par",
+  "bairro": "Santa Terezinha",
+  "localidade": "Paulínia",
+  "uf": "SP",
+  "ibge": "3536505",
+  "gia": "5137",
+  "ddd": "19",
+  "siafi": "6831"
+} 
+ </msg>
+<msg timestamp="20221214 11:57:23.682" level="INFO">C:\Python\Python310\lib\site-packages\urllib3\connectionpool.py:1045: InsecureRequestWarning: Unverified HTTPS request is being made to host 'viacep.com.br'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/1.26.x/advanced-usage.html#ssl-warnings
+  warnings.warn(</msg>
+<msg timestamp="20221214 11:57:23.683" level="INFO">${RESPONSE} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20221214 11:57:23.171" endtime="20221214 11:57:23.684"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${RESPONSE}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20221214 11:57:23.685" level="INFO">${RESPONSE} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20221214 11:57:23.684" endtime="20221214 11:57:23.686"/>
+</kw>
+<status status="PASS" starttime="20221214 11:57:23.171" endtime="20221214 11:57:23.686"/>
+</kw>
+<kw name="Then the address should be shown" library="PauliniaZipCodeStep">
+<kw name="Convert String To Json" library="JSONLibrary">
+<var>${response_json}</var>
+<arg>${RESPONSE.content}</arg>
+<doc>Convert String to JSON object</doc>
+<msg timestamp="20221214 11:57:23.688" level="INFO">${response_json} = {'cep': '13140-770', 'logradouro': 'Avenida Doutor Alexandre Martins Laroca', 'complemento': 'de 34 ao fim - lado par', 'bairro': 'Santa Terezinha', 'localidade': 'Paulínia', 'uf': 'SP', 'ibge': '3536...</msg>
+<status status="PASS" starttime="20221214 11:57:23.687" endtime="20221214 11:57:23.688"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${status_code}</var>
+<arg>${RESPONSE.status_code}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20221214 11:57:23.689" level="INFO">${status_code} = 200</msg>
+<status status="PASS" starttime="20221214 11:57:23.688" endtime="20221214 11:57:23.689"/>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>${status_code}</arg>
+<arg>200</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20221214 11:57:23.689" endtime="20221214 11:57:23.690"/>
+</kw>
+<kw name="Get Value From Json" library="JSONLibrary">
+<var>${city_value}</var>
+<arg>${response_json}</arg>
+<arg>$.localidade</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<msg timestamp="20221214 11:57:23.713" level="INFO">${city_value} = ['Paulínia']</msg>
+<status status="PASS" starttime="20221214 11:57:23.690" endtime="20221214 11:57:23.713"/>
+</kw>
+<kw name="Get Value From Json" library="JSONLibrary">
+<var>${state_value}</var>
+<arg>${response_json}</arg>
+<arg>$.uf</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<msg timestamp="20221214 11:57:23.733" level="INFO">${state_value} = ['SP']</msg>
+<status status="PASS" starttime="20221214 11:57:23.713" endtime="20221214 11:57:23.734"/>
+</kw>
+<kw name="Get Value From Json" library="JSONLibrary">
+<var>${zipcode_value}</var>
+<arg>${response_json}</arg>
+<arg>$.cep</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<msg timestamp="20221214 11:57:23.753" level="INFO">${zipcode_value} = ['13140-770']</msg>
+<status status="PASS" starttime="20221214 11:57:23.734" endtime="20221214 11:57:23.753"/>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>${city_value[0]}</arg>
+<arg>Paulínia</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20221214 11:57:23.753" endtime="20221214 11:57:23.754"/>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>${state_value[0]}</arg>
+<arg>SP</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20221214 11:57:23.754" endtime="20221214 11:57:23.755"/>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>${zipcode_value[0]}</arg>
+<arg>13140-770</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20221214 11:57:23.756" endtime="20221214 11:57:23.756"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>CITY = ${city_value[0]}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20221214 11:57:23.757" endtime="20221214 11:57:23.758"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>STATE = ${state_value[0]}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20221214 11:57:23.758" endtime="20221214 11:57:23.759"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>ZIP CODE = ${zipcode_value[0]}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20221214 11:57:23.759" endtime="20221214 11:57:23.760"/>
+</kw>
+<status status="PASS" starttime="20221214 11:57:23.687" endtime="20221214 11:57:23.760"/>
+</kw>
+<status status="PASS" starttime="20221214 11:57:23.166" endtime="20221214 11:57:23.761"/>
+</test>
+<status status="PASS" starttime="20221214 11:57:22.781" endtime="20221214 11:57:23.763"/>
+</suite>
+<status status="PASS" starttime="20221214 11:57:22.778" endtime="20221214 11:57:23.765"/>
+</suite>
+<status status="PASS" starttime="20221214 11:57:22.753" endtime="20221214 11:57:23.767"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Automated-Test-With-Robot">Automated-Test-With-Robot</stat>
+<stat pass="1" fail="0" skip="0" id="s1-s1" name="Tests">Automated-Test-With-Robot.Tests</stat>
+<stat pass="1" fail="0" skip="0" id="s1-s1-s1" name="ValidateAddressPaulinia">Automated-Test-With-Robot.Tests.ValidateAddressPaulinia</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
